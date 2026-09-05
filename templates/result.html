@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}
+Prediction Result | ChurnGuard
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <span class="badge">
+        ANALYSIS COMPLETE
+    </span>
+
+    <h1>
+        Customer Risk Assessment
+    </h1>
+
+    <p>
+        Machine learning analysis of the submitted
+        customer information.
+    </p>
+
+</div>
+
+
+<div class="result-grid">
+
+
+    <!-- PREDICTION -->
+
+    <div class="result-card">
+
+        <p class="result-label">
+            PREDICTION
+        </p>
+
+        <h2 class="
+            {% if prediction == 'Churn' %}
+                text-danger
+            {% else %}
+                text-success
+            {% endif %}
+        ">
+
+            {{ prediction }}
+
+        </h2>
+
+        <p>
+            Model prediction based on customer
+            characteristics.
+        </p>
+
+    </div>
+
+
+    <!-- PROBABILITY -->
+
+    <div class="result-card">
+
+        <p class="result-label">
+            CHURN PROBABILITY
+        </p>
+
+        <h2>
+
+            {{ "%.2f"|format(probability * 100) }}%
+
+        </h2>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                style="width: {{ probability * 100 }}%;"
+            >
+            </div>
+
+        </div>
+
+        <p>
+            Estimated model probability.
+        </p>
+
+    </div>
+
+
+    <!-- RISK -->
+
+    <div class="result-card">
+
+        <p class="result-label">
+            RISK LEVEL
+        </p>
+
+        <h2 class="
+            {% if risk_level == 'High' %}
+                text-danger
+            {% elif risk_level == 'Medium' %}
+                text-warning
+            {% else %}
+                text-success
+            {% endif %}
+        ">
+
+            {{ risk_level }}
+
+        </h2>
+
+        <p>
+            Business-oriented customer risk category.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- RISK FACTORS -->
+
+<div class="result-section">
+
+    <div class="result-section-header">
+
+        <h2>
+            Main Risk Factors
+        </h2>
+
+        <p>
+            Important customer characteristics
+            associated with the prediction.
+        </p>
+
+    </div>
+
+
+    <ul class="risk-list">
+
+        {% for reason in reasons %}
+
+            <li>
+
+                <span class="risk-dot">
+                    •
+                </span>
+
+                {{ reason }}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
+
+
+<!-- RECOMMENDATION -->
+
+<div class="recommendation-card">
+
+    <div>
+
+        <p class="result-label">
+            RECOMMENDED ACTION
+        </p>
+
+        <h2>
+            Retention Recommendation
+        </h2>
+
+        <p>
+            {{ recommendation }}
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<div class="result-actions">
+
+    <a
+        href="/predict"
+        class="btn btn-primary"
+    >
+        Analyze Another Customer
+    </a>
+
+    <a
+        href="/"
+        class="btn btn-secondary"
+    >
+        Back to Home
+    </a>
+
+</div>
+
+{% endblock %}

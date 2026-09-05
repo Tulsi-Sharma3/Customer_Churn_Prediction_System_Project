@@ -1,0 +1,463 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Prediction Details</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        .navbar {
+            background: #1f2937;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            color: white;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .item {
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+
+        .label {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            font-weight: bold;
+        }
+
+        .prediction {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .churn {
+            color: #dc2626;
+        }
+
+        .no-churn {
+            color: #16a34a;
+        }
+
+        .high {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .medium {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .low {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .reason-list {
+            padding-left: 20px;
+        }
+
+        .recommendation {
+            background: #eff6ff;
+            padding: 18px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-button:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 700px) {
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 18px;
+            }
+
+            .navbar a {
+                margin-left: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="navbar">
+
+    <h2>
+        Customer Churn System
+    </h2>
+
+    <div>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/predict">
+            Predict
+        </a>
+
+        <a href="/history">
+            History
+        </a>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>
+            Prediction Details
+        </h1>
+
+        <p>
+            Detailed analysis for
+            <strong>
+                {{ prediction.customer_id }}
+            </strong>
+        </p>
+
+    </div>
+
+
+    <!-- Prediction Summary -->
+
+    <div class="card">
+
+        <h2>
+            Prediction Summary
+        </h2>
+
+        <div class="details">
+
+            <div class="item">
+
+                <div class="label">
+                    Customer ID
+                </div>
+
+                <div class="value">
+                    {{ prediction.customer_id }}
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Prediction
+                </div>
+
+                <div class="prediction">
+
+                    {% if prediction.prediction == "Churn" %}
+
+                        <span class="churn">
+                            Churn
+                        </span>
+
+                    {% else %}
+
+                        <span class="no-churn">
+                            No Churn
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Churn Probability
+                </div>
+
+                <div class="value">
+
+                    {{ "%.2f"|format(
+                        prediction.churn_probability * 100
+                    ) }}%
+
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Risk Level
+                </div>
+
+                <div class="value">
+
+                    {% if prediction.risk_level == "High" %}
+
+                        <span class="high">
+                            High
+                        </span>
+
+                    {% elif prediction.risk_level == "Medium" %}
+
+                        <span class="medium">
+                            Medium
+                        </span>
+
+                    {% else %}
+
+                        <span class="low">
+                            Low
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="item">
+
+                <div class="label">
+                    Prediction Time
+                </div>
+
+                <div class="value">
+                    {{ prediction.prediction_time }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Customer Information -->
+
+    <div class="card">
+
+        <h2>
+            Customer Information
+        </h2>
+
+        <div class="details">
+
+            <div class="item">
+                <div class="label">Gender</div>
+                <div class="value">{{ customer.gender }}</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Senior Citizen</div>
+                <div class="value">{{ customer.SeniorCitizen }}</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Partner</div>
+                <div class="value">{{ customer.Partner }}</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Dependents</div>
+                <div class="value">{{ customer.Dependents }}</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Tenure</div>
+                <div class="value">{{ customer.tenure }} months</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Internet Service</div>
+                <div class="value">{{ customer.InternetService }}</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Contract</div>
+                <div class="value">{{ customer.Contract }}</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Payment Method</div>
+                <div class="value">{{ customer.PaymentMethod }}</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Monthly Charges</div>
+                <div class="value">₹{{ customer.MonthlyCharges }}</div>
+            </div>
+
+            <div class="item">
+                <div class="label">Total Charges</div>
+                <div class="value">₹{{ customer.TotalCharges }}</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Risk Factors -->
+
+    <div class="card">
+
+        <h2>
+            Main Risk Factors
+        </h2>
+
+        {% if reasons %}
+
+            <ul class="reason-list">
+
+                {% for reason in reasons %}
+
+                    <li>
+                        {{ reason }}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p>
+                No major risk factors identified.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Recommendation -->
+
+    <div class="card">
+
+        <h2>
+            Business Recommendation
+        </h2>
+
+        <div class="recommendation">
+
+            {{ recommendation }}
+
+        </div>
+
+    </div>
+
+
+    <a
+        href="/history"
+        class="back-button"
+    >
+        ← Back to History
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>
+

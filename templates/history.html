@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Prediction History</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        .navbar {
+            background: #1f2937;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            color: white;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            margin-bottom: 8px;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .filters form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        input,
+        select,
+        button {
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input {
+            min-width: 220px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .reset {
+            background: #6b7280;
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #1f2937;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .churn {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .no-churn {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .high {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .medium {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .low {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<div class="navbar">
+
+    <h2>Customer Churn System</h2>
+
+    <div>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/predict">
+            Predict
+        </a>
+
+        <a href="/history">
+            History
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<div class="container">
+
+
+    <div class="page-title">
+
+        <h1>
+            Prediction History
+        </h1>
+
+        <p>
+            View and filter previous customer churn predictions.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         FILTERS
+    ================================================== -->
+
+    <div class="filters">
+
+        <form
+            method="GET"
+            action="/history"
+        >
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search Customer ID"
+                value="{{ search }}"
+            >
+
+
+            <select name="prediction">
+
+                <option value="">
+                    All Predictions
+                </option>
+
+                <option
+                    value="Churn"
+                    {% if prediction_filter == "Churn" %}
+                        selected
+                    {% endif %}
+                >
+                    Churn
+                </option>
+
+                <option
+                    value="No Churn"
+                    {% if prediction_filter == "No Churn" %}
+                        selected
+                    {% endif %}
+                >
+                    No Churn
+                </option>
+
+            </select>
+
+
+            <select name="risk">
+
+                <option value="">
+                    All Risk Levels
+                </option>
+
+                <option
+                    value="High"
+                    {% if risk_filter == "High" %}
+                        selected
+                    {% endif %}
+                >
+                    High Risk
+                </option>
+
+                <option
+                    value="Medium"
+                    {% if risk_filter == "Medium" %}
+                        selected
+                    {% endif %}
+                >
+                    Medium Risk
+                </option>
+
+                <option
+                    value="Low"
+                    {% if risk_filter == "Low" %}
+                        selected
+                    {% endif %}
+                >
+                    Low Risk
+                </option>
+
+            </select>
+
+
+            <button type="submit">
+                Apply Filters
+            </button>
+
+
+            <a
+                href="/history"
+                class="reset"
+            >
+                Reset
+            </a>
+
+        </form>
+
+    </div>
+
+
+    <!-- =================================================
+         HISTORY TABLE
+    ================================================== -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Customer ID</th>
+
+                    <th>Prediction</th>
+
+                    <th>Probability</th>
+
+                    <th>Risk Level</th>
+
+                    <th>Prediction Time</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for row in predictions %}
+
+                <tr>
+
+                    <td>
+                        {{ row.id }}
+                    </td>
+
+                    <td>
+                        <a
+                            href="/history/{{ row.id }}"
+                            class="customer-link"
+                        >
+                            {{ row.customer_id }}
+                        </a>
+                    </td>
+
+
+                    <td>
+
+                        {% if row.prediction == "Churn" %}
+
+                            <span class="churn">
+                                Churn
+                            </span>
+
+                        {% else %}
+
+                            <span class="no-churn">
+                                No Churn
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+                        {{ "%.2f"|format(row.churn_probability * 100) }}%
+                    </td>
+
+
+                    <td>
+
+                        {% if row.risk_level == "High" %}
+
+                            <span class="high">
+                                High
+                            </span>
+
+                        {% elif row.risk_level == "Medium" %}
+
+                            <span class="medium">
+                                Medium
+                            </span>
+
+                        {% else %}
+
+                            <span class="low">
+                                Low
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+                        {{ row.prediction_time }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty"
+                    >
+                        No prediction history found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

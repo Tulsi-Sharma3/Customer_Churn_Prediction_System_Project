@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customer Churn Prediction</title>
+
+</head>
+
+<body>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/predict">Predict Churn</a>
+        <a href="/history">Prediction History</a>
+        <a href="/dashboard">Dashboard</a>
+    </nav>
+    <h1>Customer Churn Prediction</h1>
+
+    <form
+        method="POST"
+        action="/predict"
+    >
+
+        <!-- ========================================= -->
+        <!-- CUSTOMER ID -->
+        <!-- ========================================= -->
+
+        <label>Customer ID</label>
+
+        <input
+            type="text"
+            name="customer_id"
+            placeholder="Enter Customer ID"
+            required
+        >
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- GENDER -->
+        <!-- ========================================= -->
+
+        <label>Gender</label>
+
+        <select name="gender">
+
+            <option value="Female">
+                Female
+            </option>
+
+            <option value="Male">
+                Male
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- SENIOR CITIZEN -->
+        <!-- ========================================= -->
+
+        <label>Senior Citizen</label>
+
+        <select name="SeniorCitizen">
+
+            <option value="0">
+                No
+            </option>
+
+            <option value="1">
+                Yes
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- PARTNER -->
+        <!-- ========================================= -->
+
+        <label>Partner</label>
+
+        <select name="Partner">
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No">
+                No
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- DEPENDENTS -->
+        <!-- ========================================= -->
+
+        <label>Dependents</label>
+
+        <select name="Dependents">
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No">
+                No
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- TENURE -->
+        <!-- ========================================= -->
+
+        <label>Tenure (months)</label>
+
+        <input
+            type="number"
+            name="tenure"
+            value="5"
+            min="0"
+            required
+        >
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- PHONE SERVICE -->
+        <!-- ========================================= -->
+
+        <label>Phone Service</label>
+
+        <select name="PhoneService">
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No">
+                No
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- MULTIPLE LINES -->
+        <!-- ========================================= -->
+
+        <label>Multiple Lines</label>
+
+        <select name="MultipleLines">
+
+            <option value="No">
+                No
+            </option>
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No phone service">
+                No phone service
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- INTERNET SERVICE -->
+        <!-- ========================================= -->
+
+        <label>Internet Service</label>
+
+        <select name="InternetService">
+
+            <option value="Fiber optic">
+                Fiber optic
+            </option>
+
+            <option value="DSL">
+                DSL
+            </option>
+
+            <option value="No">
+                No
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- ONLINE SECURITY -->
+        <!-- ========================================= -->
+
+        <label>Online Security</label>
+
+        <select name="OnlineSecurity">
+
+            <option value="No">
+                No
+            </option>
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No internet service">
+                No internet service
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- ONLINE BACKUP -->
+        <!-- ========================================= -->
+
+        <label>Online Backup</label>
+
+        <select name="OnlineBackup">
+
+            <option value="No">
+                No
+            </option>
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No internet service">
+                No internet service
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- DEVICE PROTECTION -->
+        <!-- ========================================= -->
+
+        <label>Device Protection</label>
+
+        <select name="DeviceProtection">
+
+            <option value="No">
+                No
+            </option>
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No internet service">
+                No internet service
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- TECH SUPPORT -->
+        <!-- ========================================= -->
+
+        <label>Tech Support</label>
+
+        <select name="TechSupport">
+
+            <option value="No">
+                No
+            </option>
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No internet service">
+                No internet service
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- STREAMING TV -->
+        <!-- ========================================= -->
+
+        <label>Streaming TV</label>
+
+        <select name="StreamingTV">
+
+            <option value="No">
+                No
+            </option>
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No internet service">
+                No internet service
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- STREAMING MOVIES -->
+        <!-- ========================================= -->
+
+        <label>Streaming Movies</label>
+
+        <select name="StreamingMovies">
+
+            <option value="No">
+                No
+            </option>
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No internet service">
+                No internet service
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- CONTRACT -->
+        <!-- ========================================= -->
+
+        <label>Contract</label>
+
+        <select name="Contract">
+
+            <option value="Month-to-month">
+                Month-to-month
+            </option>
+
+            <option value="One year">
+                One year
+            </option>
+
+            <option value="Two year">
+                Two year
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- PAPERLESS BILLING -->
+        <!-- ========================================= -->
+
+        <label>Paperless Billing</label>
+
+        <select name="PaperlessBilling">
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No">
+                No
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- PAYMENT METHOD -->
+        <!-- ========================================= -->
+
+        <label>Payment Method</label>
+
+        <select name="PaymentMethod">
+
+            <option value="Electronic check">
+                Electronic check
+            </option>
+
+            <option value="Mailed check">
+                Mailed check
+            </option>
+
+            <option value="Bank transfer (automatic)">
+                Bank transfer (automatic)
+            </option>
+
+            <option value="Credit card (automatic)">
+                Credit card (automatic)
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- MONTHLY CHARGES -->
+        <!-- ========================================= -->
+
+        <label>Monthly Charges</label>
+
+        <input
+            type="number"
+            name="MonthlyCharges"
+            value="95.50"
+            step="0.01"
+            min="0"
+            required
+        >
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- TOTAL CHARGES -->
+        <!-- ========================================= -->
+
+        <label>Total Charges</label>
+
+        <input
+            type="number"
+            name="TotalCharges"
+            value="477.50"
+            step="0.01"
+            min="0"
+            required
+        >
+
+        <br><br>
+
+
+        <!-- ========================================= -->
+        <!-- SUBMIT -->
+        <!-- ========================================= -->
+
+        <button type="submit">
+            Predict Churn
+        </button>
+
+    </form>
+
+</body>
+
+</html>
